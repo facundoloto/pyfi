@@ -1,5 +1,5 @@
 import { transporter, hbsConfig } from './emailConfigServices';
-//import path from 'path';
+import path from 'path';
 import hbs  from 'nodemailer-express-handlebars';
 
 export function emailOption({ from, to, subject, text, template }: 
@@ -11,9 +11,11 @@ export function emailOption({ from, to, subject, text, template }:
     subject: subject,
     text: text,
     template: template,
-    // attachments: [
-    //   { filename: 'image-1.JPG', path: './dist/services/email/views/image' }
-    // ],
+    attachments:{ 
+       filename: 'logo',
+       path:path.join(__dirname, '../email/views/images/logo.jpeg'),
+       cid:'logo',
+      }
   };
 
   return options;

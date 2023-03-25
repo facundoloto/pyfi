@@ -1,5 +1,15 @@
 import { HTTPClientError } from "./httpClientError";
 
+
+export class HTTP200Success extends HTTPClientError {
+  readonly statusCode = 200;
+
+  constructor(message: string | object = "Sucess") {
+    super(message);
+  }
+};
+
+
 export class HTTP400Error extends HTTPClientError {
   readonly statusCode = 400;
 
@@ -31,3 +41,6 @@ export class HTTP404Error extends HTTPClientError {
     super(message);
   }
 };
+
+
+

@@ -1,9 +1,12 @@
-export interface user {
+export interface UserInterfaces{
+  id?:number
   name:string
   email:string
+  password:string
+  image:string
 }
 
-export interface email {
+export interface user{
     from: string
     to: string
     subject: string

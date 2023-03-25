@@ -1,13 +1,13 @@
 import express  from "express"; //ES module
 import { Request, Response } from "express";
 import { emailCompany } from "../services/email/emailConfigServices";
-import { sendEmailWelcome, emailOption} from './../services/email/sendEmailServices';
+import { sendEmailWelcome, emailOption} from "../services/email/sendEmailServices";
 // import { checkPostRequestBody } from "./../middleware/checks";
 
 const router = express.Router();
 
- router.post('/', async ( req:Request, res:Response) => {
-   try {
+ router.post('/', async ( req:Request, _res:Response) => {
+   
     const emailUser: string = req.body.email as string;
     /*
     *content Email is a function for set the options and template to
@@ -22,20 +22,8 @@ const router = express.Router();
         template: 'welcome',
       });
 
-    const emailSend = await sendEmailWelcome(contentEmail);
+    await sendEmailWelcome(contentEmail);
 
-    if (emailSend === 200) {
-    res.status(200).send('email send');
-    }
-    else {
-      res.status(404).send('email was not send');
-    }
-
-   }
-   catch ( err ) {
-     res.status(404).send(err);
-   }
-   
   });
 
 module.exports =  router ;
