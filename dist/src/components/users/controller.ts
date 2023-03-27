@@ -2,17 +2,18 @@ import { Request, Response } from 'express';
 import { HttpStatusCode, HttpMessageCode } from './../../constant/httpCodes';
 import { UserInterfaces } from '../../interfaces/interfaces';
 import { saveUser, findUserByPk, updateUser, deleteProfileUser } from './services';
-import { tryCatchResponse } from './../../utils/tryCatchResponse';
+const tryCatchResponse =require('./../../utils/tryCatchResponse');
 
 export class UserController {
 
-  public static async getById(req: Request, _res: Response): Promise<void> {
+  public static async getById(req: Request, _res: Response) {
     const idUser = Number(req.params.id);
     const user = await findUserByPk(idUser);
-    tryCatchResponse(user);
+    const response = tryCatchResponse(user);
+    return response;
   }
 
-  public static async create(req: Request, _res: Response): Promise<void> {
+  public static async create(req: Request, _res: Response) {
     let fileImage:any = req.file;
 
     const user: UserInterfaces = {
@@ -22,9 +23,10 @@ export class UserController {
       image: fileImage.location
     };
 
-    const response = await saveUser(user);
 
-    tryCatchResponse(response);
+    const recordUser = await saveUser(user);
+    return recordUser;
+ 
   }
 
   public static async update(req: Request, _res: Response): Promise<void> {
