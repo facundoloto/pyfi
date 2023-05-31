@@ -1,39 +1,39 @@
-import { User } from './../../db/models/user';
-import {UserInterfaces} from './../../interfaces/interfaces';
+import { User } from '../../db/models/user';
+import { UserInterfaces } from './../../interfaces/interfaces';
 
-export const findByEmail = async(email:string):Promise<Object> => {
+export const findByEmail = async (email: string): Promise<Object> => {
   const user = await User.findAll({
-      attributes: ['email'],
-      where: { email: `${email}` },
-    });
+    where: { email: `${email}` },
+  });
 
   return user;
 };
 
-export const findUserByPk = async (id:number | undefined) => {
+export const findUserByPk = async (id: number | undefined) => {
   const user = await User.findByPk(id);
   return user;
 };
 
-export const saveUser = async (user:UserInterfaces) =>{
-  const profileUser = new User(user);
-  const saveProfile = await profileUser.save();
-  return saveProfile;
+export const saveUser = async (user: UserInterfaces) => {
+ 
+    const profileUser = new User(user);
+    const saveProfile = await profileUser.save();
+    return saveProfile;
 }
 
 
-export const updateUser = async (user:UserInterfaces) => {
+export const updateUser = async (user: UserInterfaces) => {
 
   const userUpdated = await User.update(
     {
-      name:user.name,
-      email:user.email,
-      password:user.password,
-      image:user.image
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      image_user: user.image_user
     },
     {
       where: {
-        id:user.id,
+        id: user.id,
       },
     }
   );
@@ -41,12 +41,12 @@ export const updateUser = async (user:UserInterfaces) => {
   return userUpdated;
 };
 
-export const deleteProfileUser = async (userId:number) => {
+export const deleteProfileUser = async (idUser: number) => {
   try {
-    const response = User.destroy({ where: { id: `${userId}` } });
-    return(response);
-    }
+    const response = User.destroy({ where: { id: `${idUser}` } });
+    return (response);
+  }
   catch (err) {
-    return(err);
-}
+    return (err);
+  }
 };

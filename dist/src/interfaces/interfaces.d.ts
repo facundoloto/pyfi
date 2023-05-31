@@ -3,7 +3,7 @@ export interface UserInterfaces{
   name:string
   email:string
   password:string
-  image:string
+  image_user:string
 }
 
 export interface user{
@@ -12,4 +12,21 @@ export interface user{
     subject: string
     text:string
     template: string
+}
+
+export interface LoginInterfaces {
+email:string;
+password:string;
+}
+
+export interface PostInterfaces{
+  id?:number
+  id_user:number
+  image_post:string
+  description:string
+}
+
+interface UserPostAttributes  {
+  id_user?: number;
+  id_post?:number;
 }

@@ -1,48 +1,39 @@
 import { Request, Response } from 'express';
-import { HttpStatusCode, HttpMessageCode } from './../../constant/httpCodes';
+import { HttpStatusCode, HttpMessageCode, responseHttp } from './../../constant/httpCodes';
 import { UserInterfaces } from '../../interfaces/interfaces';
-import { saveUser, findUserByPk, updateUser, deleteProfileUser } from './services';
-const tryCatchResponse =require('./../../utils/tryCatchResponse');
+import { findUserByPk, updateUser, deleteProfileUser } from './services';
+import { encryptPassword } from '../../utils/verify';
+//import { Email } from '../../services/email/email';
+
+export const setUser = async (req:Request, _res:Response) => {
+  const fileImage:any = req.file;
+  const hashPassword:string = await encryptPassword(req.body.password);
+  const user: UserInterfaces = {
+    name: req.body.name, 
+    email: req.body.email,
+    password:hashPassword , 
+    image_user: fileImage.location
+    };
+
+  return user;
+}
 
 export class UserController {
-
+  
   public static async getById(req: Request, _res: Response) {
     const idUser = Number(req.params.id);
     const user = await findUserByPk(idUser);
-    const response = tryCatchResponse(user);
-    return response;
+    return user;
   }
 
-  public static async create(req: Request, _res: Response) {
-    let fileImage:any = req.file;
-
-    const user: UserInterfaces = {
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      image: fileImage.location
-    };
-
-
-    const recordUser = await saveUser(user);
-    return recordUser;
- 
+  public static async update(req: Request, _res: Response) {
+    const user = await setUser(req, _res);
+    const result = await updateUser(user);
+    let responseOk:responseHttp = {status:true, result:result}
+    return responseOk;
   }
 
-  public static async update(req: Request, _res: Response): Promise<void> {
-    const user: UserInterfaces = {
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      image: req.body.image
-    };
-
-    const response = await updateUser(user);
-
-    tryCatchResponse(response);
-  }
-
-  public static async delete(req: Request, res: Response): Promise<void> {
+  public static async delete(req: Request, res: Response) {
     try {
       const idUser = Number(req.params.id);
       const user = await findUserByPk(idUser);

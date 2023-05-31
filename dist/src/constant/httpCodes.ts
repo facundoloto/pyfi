@@ -1,5 +1,3 @@
-
-
 export enum HttpStatusCode {
     Ok = 200,
     BadRequest = 400,
@@ -21,3 +19,11 @@ export enum HttpMessageCode {
   NotImplemented = 'not implemented',
   ServiceUnavailable = 'unavailable'
 }
+
+export type responseHttp = {
+  status:boolean
+  code?:number
+  message?:string
+  result?:unknown
+}
+

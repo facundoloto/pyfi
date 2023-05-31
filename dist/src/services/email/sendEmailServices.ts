@@ -24,16 +24,17 @@ export function emailOption({ from, to, subject, text, template }:
 
 export async function sendEmailWelcome(contentEmail:Object){
   transporter.use('compile', hbs(hbsConfig));
-
+  try {
   await transporter.sendMail(contentEmail, function (error, _info) {
     if (error) {
-      console.log(error);
       return 404;
     }
-    console.log('Message sent');
     transporter.close();
     return 200;
   });
-
+  }
+  catch (err) {
+    console.log(err)
+  }
 }
 
