@@ -32,8 +32,9 @@ export const Save = async (req: Request, res: Response) => {
 export const getById = async (req: Request, _res: Response) => {
   const idUser = Number(req.params.id);
   const post = await findByIdUser(idUser);
+  const responseOk: responseHttp = { status: true, result: post };
 
-  return post;
+  return responseOk;
 };
 
 export const getAll = async (_req: Request, _res: Response) => {

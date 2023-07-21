@@ -1,10 +1,9 @@
 import express  from 'express';
 import { UserController } from './controller';
-//import { uploadImage } from './../../services/aws/uploadImageServices';
-//const tryCatchResponse =require('./../../utils/tryCatchResponse');
 
 const router = express.Router();
+const tryCatchResponse =require('./../../utils/tryCatchResponse');
 
-router.get('/:id', UserController.getById);
-
+router.get('/id/:id', tryCatchResponse(UserController.getById));
+router.get('/email/:email', tryCatchResponse(UserController.getByEmail));
 module.exports = router;

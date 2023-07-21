@@ -17,7 +17,7 @@ const tryCatchResponse = (controller: any) => async (_req: Request, res: Respons
     }
     else {
       //you can set this when response is error 'cause each error status it's different in each controller
-      res.status(response.code).json(response.message);
+      res.status(response.code).json(response.result);
     }
 
   } catch (error) {

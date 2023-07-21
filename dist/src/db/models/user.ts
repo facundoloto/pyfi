@@ -10,7 +10,7 @@ interface UserAttributes {
   id?: number;
   name: string;
   email: string;
-  password: string;
+  password?: string;
   image_user?: string;
   createdAt?: Date;
   updatedAt?: Date;

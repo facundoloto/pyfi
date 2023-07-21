@@ -20,11 +20,14 @@ export const savePost = async (post: PostInterfaces) => {
 export const findAll = async (): Promise<Object> => {
   const post = await Post.findAll(
     {
-      attributes: ['id','image_post', 'description', 'createdAt'],
+      attributes: ['id', 'image_post', 'description', 'createdAt'],
       include: [{
         model: User, as: "users",
         attributes: ['id', 'name', 'image_user']
-      }]
+      }],
+      order: [
+        ['id', 'DESC'],
+      ]
     });
 
   return post;
