@@ -1,11 +1,12 @@
-import express  from 'express';
+import express from 'express';
 import { uploadImage } from '../../services/aws/uploadImageServices';
-import { Login, signUp, signUpGoogle } from './controller';
+import { LoginController } from './controller';
 
-const tryCatchResponse =require('./../../utils/tryCatchResponse');
+const register = new LoginController();
+const tryCatchResponse = require('./../../utils/tryCatchResponse');
 const router = express.Router();
 
-router.post('/signup/', uploadImage, tryCatchResponse(signUp))
-router.post('/login/', tryCatchResponse(Login));
-router.post('/signup/google/', tryCatchResponse(signUpGoogle));
+router.post('/signup/', uploadImage, tryCatchResponse(register.signUp))
+router.post('/login/', tryCatchResponse(register.Login));
+router.post('/signup/google/', tryCatchResponse(register.signUpGoogle));
 module.exports = router;

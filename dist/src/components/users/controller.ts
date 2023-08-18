@@ -1,43 +1,52 @@
 import { Request, Response } from 'express';
 import { HttpStatusCode, HttpMessageCode, responseHttp } from './../../constant/httpCodes';
-import { UserInterfaces } from '../../interfaces/interfaces';
-import { findUserByPk, updateUser, deleteProfileUser, findByEmail } from './services';
 import { encryptPassword } from '../../utils/verify';
-//import { Email } from '../../services/email/email';
+import { userDto } from './userDto';
+import UserDao from './services';
+// import Auth from '../auth/auth';
 
-export const setUser = async (req: Request, _res: Response) => {
-  const fileImage: any = req.file;
-  const location: string = fileImage ? fileImage : "https://visualpharm.com/assets/336/User-595b40b65ba036ed117d26d4.svg";
-  const hashPassword: string = await encryptPassword(req.body.password);
-
-  const user: UserInterfaces = {
-    name: req.body.name,
-    email: req.body.email,
-    password: hashPassword,
-    image_user: location
-  };
-
-  return user;
-}
+const userDao = new UserDao();
+// const auth = new Auth();
 
 export class UserController {
 
-  public static async getById(req: Request, _res: Response) {
+  /*this funcion just works to set a new user and send a db */
+  public async setUserDto(req: Request, _res: Response) {
+    const fileImage: any = req.file;
+    const location: string = fileImage ? fileImage : "https://visualpharm.com/assets/336/User-595b40b65ba036ed117d26d4.svg";
+    const hashPassword: string = await encryptPassword(req.body.password);
+
+    const user: userDto = {
+      name: req.body.name,
+      email: req.body.email,
+      password: hashPassword,
+      image_user: location
+    };
+
+    return user;
+  }
+
+
+  public async getById(req: Request, _res: Response) {
+    // const token = req.cookies.token;
     const idUser = Number(req.params.id);
-    const user = await findUserByPk(idUser);
+    const user = await userDao.findById(idUser);
+    let response: responseHttp;
     if (!user) {
-      let responseBad: responseHttp = { status: false, code: HttpStatusCode.NotImplemented, message: 'user not found' }
-      return responseBad;
+      response = { status: false, code: HttpStatusCode.NotImplemented, message: 'user not found' }
     }
     else {
-      let responseOk: responseHttp = { status: true, result: user };
-      return responseOk;
+      response = { status: true, result: user };
     }
+
+    /*this should return the response with user or not, decoded just works for check if the token It's right or not*/
+    // const responseToken: responseHttp = auth.decodedToken(response, token);
+    return response;
   }
 
-  public static async getByEmail(req: Request, _res: Response) {
+  public async getByEmail(req: Request, _res: Response) {
     const emailUser = req.params.email;
-    const user = await findByEmail(emailUser);
+    const user = await userDao.findByEmail(emailUser);
 
     if (!user) {
       let responseBad: responseHttp = { status: false, code: HttpStatusCode.NotImplemented, message: 'user not found' }
@@ -50,25 +59,27 @@ export class UserController {
 
   }
 
-  public static async update(req: Request, _res: Response) {
-    const user = await setUser(req, _res);
-    const result = await updateUser(user);
+  public async update(req: Request, _res: Response) {
+    const user = await this.setUserDto(req, _res);
+    const result = await userDao.update(user);
     let responseOk: responseHttp = { status: true, result: result }
+
     return responseOk;
   }
 
-  public static async delete(req: Request, res: Response) {
+  public async delete(req: Request, res: Response) {
     try {
       const idUser = Number(req.params.id);
-      const user = await findUserByPk(idUser);
+      const user = await userDao.findById(idUser);
 
       if (!user) {
         res.status(HttpStatusCode.NotFound).json(HttpMessageCode.NotFound);
       }
       else {
-        const response = await deleteProfileUser(idUser)
+        const response = await userDao.delete(idUser)
         res.status(HttpStatusCode.Ok).json(response);
       }
+
     } catch (err) {
       res.status(HttpStatusCode.InternalServerError).json(HttpMessageCode.InternalServerError);
     }

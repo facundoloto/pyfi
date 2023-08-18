@@ -1,0 +1,4 @@
+{
+    "exec": "mocha -r ts-node/register --watch --watch-files domains/**/*.ts,test/*.ts dist/src/components/loggin/**/*.test.ts",
+    "ext": "ts"
+}

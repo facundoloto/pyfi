@@ -1,14 +1,15 @@
 import express from 'express';
 import { uploadImage } from '../../services/aws/uploadImageServices';
-import { Save, getById, getAll, Delete, Update } from './controller';
+import { Post } from './controller';
 
 const tryCatchResponse = require('./../../utils/tryCatchResponse');
 const router = express.Router();
+const postController = new Post();
 
-router.post('/post/', uploadImage, tryCatchResponse(Save))
-router.get('/post/', tryCatchResponse(getAll));
-router.get('/post/:id', tryCatchResponse(getById));
-router.delete('/post/:id',tryCatchResponse(Delete));
-router.put('/post/:id', tryCatchResponse(Update));
+router.post('/post/', uploadImage, tryCatchResponse(postController.Save))
+router.get('/post/', tryCatchResponse(postController.getAll));
+router.get('/post/user/:id', tryCatchResponse(postController.getById));
+router.delete('/post/:id', tryCatchResponse(postController.Delete));
+router.put('/post/:id', tryCatchResponse(postController.Update));
 
 module.exports = router;

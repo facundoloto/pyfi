@@ -1,14 +1,14 @@
 export enum HttpStatusCode {
-    Ok = 200,
-    BadRequest = 400,
-    Unauthorized = 401,
-    Forbidden = 403,
-    NotFound = 404,
-    InternalServerError = 500,
-    NotImplemented = 501,
-    ServiceUnavailable = 503
-  }
-  
+  Ok = 200,
+  BadRequest = 400,
+  Unauthorized = 401,
+  Forbidden = 403,
+  NotFound = 404,
+  InternalServerError = 500,
+  NotImplemented = 501,
+  ServiceUnavailable = 503
+}
+
 export enum HttpMessageCode {
   Ok = 'success',
   BadRequest = 'bad request',
@@ -21,9 +21,10 @@ export enum HttpMessageCode {
 }
 
 export type responseHttp = {
-  status:boolean
-  code?:number
-  message?:string
-  result?:unknown
+  status: boolean
+  code?: number
+  message?: string
+  result?: unknown
+  token?: string
 }
 

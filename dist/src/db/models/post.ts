@@ -6,18 +6,18 @@ import User from './user'; // Importa el modelo User
 const sequelize = sequelizeConnection;
 
 // Definimos nuestra interfaz UserAttributes que define las propiedades del objeto User
-interface PostAttributes {
-  id?: number;
-  id_user:number;
-  image_post: string;
-  description: string;
-  fav?:number;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+// interface PostAttributes {
+//   id?: number;
+//   id_user:number;
+//   image_post: string;
+//   description: string;
+//   fav?:number;
+//   createdAt?: Date;
+//   updatedAt?: Date;
+// }
 
 // Creamos nuestro modelo User
-export class Post extends Model<PostAttributes> implements PostAttributes {
+export class Post extends Model {
   public id!: number;
   public id_user!: number;
   public image_post !: string;
@@ -59,7 +59,7 @@ Post.init(
   },
   {
     sequelize,
-    modelName:"Posts",
+    modelName: "Posts",
     // pasamos la instancia de la conexión de sequelize configurada arriba
   }
 );

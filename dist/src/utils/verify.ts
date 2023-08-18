@@ -1,16 +1,18 @@
-import { findByEmail } from "../components/users/services";
+import UserDao from "../components/users/services";
+
+const userDao = new UserDao();
 const { hash, compare } = require('bcrypt');
 
-export const checkEmail = async (email:string):Promise<boolean> => {
-    let emailUse:boolean = true;
-    const response = await findByEmail(email);
+export const checkEmail = async (email: string): Promise<boolean> => {
+    let emailUse: boolean = true;
+    const response = await userDao.findByEmail(email);
     const isEmpty = Object.keys(response);
-    
+
     if (!isEmpty.length) {
         emailUse = false;
         return emailUse;
     }
-     
+
     return emailUse;
 };
 
@@ -31,3 +33,5 @@ export const comparePassword = async (comparePassword: string, userPassword: str
 
     return checkPassword;
 };
+
+// const verifyToken = ()=>{};

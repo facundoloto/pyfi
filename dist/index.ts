@@ -29,4 +29,4 @@ server.listen(PORT, () => {
   console.log("SERVER IS RUNNING");
 });
 
-module.exports = app;
+export default app;

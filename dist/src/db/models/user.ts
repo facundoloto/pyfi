@@ -1,23 +1,13 @@
 //db/models/users.ts
 import sequelizeConnection from '../../config/configModel';
 import { DataTypes, Model } from 'sequelize';
-
+// import { UserInterfaces } from '../../interfaces/interfaces';
 // Aquí puedes configurar tu conexión a la base de datos.
 const sequelize = sequelizeConnection;
 
-// Definimos nuestra interfaz UserAttributes que define las propiedades del objeto User
-interface UserAttributes {
-  id?: number;
-  name: string;
-  email: string;
-  password?: string;
-  image_user?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
 
 // Creamos nuestro modelo User
-export class User extends Model<UserAttributes> implements UserAttributes {
+export class User extends Model {
   public id!: number;
   public name!: string;
   public email!: string;
@@ -25,11 +15,6 @@ export class User extends Model<UserAttributes> implements UserAttributes {
   public image_user!: string;
   public createdAt!: Date;
   public updatedAt!: Date;
-
-  // public static associate(models: any) {
-  //   User.hasMany(models.Post,{as:"posts",foreignKey:"id_user"});
-  // }
-
 }
 
 // Configuramos el esquema de nuestro modelo User
@@ -61,7 +46,7 @@ User.init(
   {
     sequelize,
     //modelName: "Users",
-    tableName:"users",
+    tableName: "users",
     freezeTableName: true,
   }
 );

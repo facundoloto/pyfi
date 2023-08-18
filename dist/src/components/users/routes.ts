@@ -1,9 +1,10 @@
-import express  from 'express';
+import express from 'express';
 import { UserController } from './controller';
 
 const router = express.Router();
-const tryCatchResponse =require('./../../utils/tryCatchResponse');
+const tryCatchResponse = require('./../../utils/tryCatchResponse');
+const userController = new UserController();
 
-router.get('/id/:id', tryCatchResponse(UserController.getById));
-router.get('/email/:email', tryCatchResponse(UserController.getByEmail));
+router.get('/id/:id', tryCatchResponse(userController.getById));
+router.get('/email/:email', tryCatchResponse(userController.getByEmail));
 module.exports = router;

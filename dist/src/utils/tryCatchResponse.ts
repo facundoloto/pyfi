@@ -11,17 +11,17 @@ import { HttpStatusCode } from "../constant/httpCodes";
 const tryCatchResponse = (controller: any) => async (_req: Request, res: Response, _next: NextFunction) => {
   try {
     const response = await controller(_req, res);
-  
+
     if (response.status) {
-      res.status(HttpStatusCode.Ok).json(response.result);
+      res.status(HttpStatusCode.Ok).json(response);
     }
     else {
       //you can set this when response is error 'cause each error status it's different in each controller
-      res.status(response.code).json(response.result);
+      res.status(response.code).json(response);
     }
 
   } catch (error) {
-     console.log(error)
+    console.log(error)
     res.status(HttpStatusCode.InternalServerError).json(error);
   };
 };

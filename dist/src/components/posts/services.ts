@@ -1,62 +1,95 @@
+import Dao from '../../classes/Dao';
 import { Post } from '../../db/models/post';
-import { User } from '../../db/models/user';
-import { PostInterfaces } from './../../interfaces/interfaces';
-
-export const findByIdUser = async (id_user: number): Promise<Object> => {
-  const post: Object = await Post.findAll({
-    where: { id_user: `${id_user}` },
-  });
-
-  return post;
-};
-
-export const savePost = async (post: PostInterfaces) => {
-  const savePost = new Post(post);
-  const postResponse = await savePost.save();
-
-  return { postResponse };
-}
-
-export const findAll = async (): Promise<Object> => {
-  const post = await Post.findAll(
-    {
-      attributes: ['id', 'image_post', 'description', 'createdAt'],
-      include: [{
-        model: User, as: "users",
-        attributes: ['id', 'name', 'image_user']
-      }],
-      order: [
-        ['id', 'DESC'],
-      ]
-    });
-
-  return post;
-};
+import User from '../../db/models/user';
+import { PostDto } from './postDto';
 
 
-export const updatePost = async (post: PostInterfaces) => {
-  const postUpdate = await Post.update(
-    {
-      id_user: post.id_user,
-      image_post: post.image_post,
-      description: post.description,
-    },
-    {
-      where: {
-        id: post.id,
-      },
+export default class PostDao extends Dao {
+
+
+  async save(PostDto: PostDto): Promise<any> {
+
+    try {
+      const savePost = Post.create(
+        {
+          id_user: PostDto.id_user,
+          image_post: PostDto.image_post,
+          description: PostDto.description
+        }
+      );
+
+      return savePost;
+    } catch (error) {
+      console.log('Error fetching user data:', error);
     }
-  );
 
-  return postUpdate;
-};
+  }
 
-export const deletePost = async (idPost: string) => {
-  try {
-    const response = Post.destroy({ where: { id: `${idPost}` } });
-    return (response);
+  async delete(idPost: string): Promise<any> {
+
+    try {
+      const deletePost = Post.destroy({ where: { id: `${idPost}` } });
+      return deletePost;
+    } catch (error) {
+      console.log('Error fetching user data:', error);
+    }
+
   }
-  catch (err) {
-    return (err);
+
+  async update(PostDto: PostDto): Promise<any> {
+    try {
+      const postUpdated = await Post.update(
+        {
+          image_post: PostDto.image_post,
+          description: PostDto.description,
+        },
+        {
+          where: {
+            id: PostDto.id,
+          },
+        }
+      );
+
+      return postUpdated;
+    } catch (error) {
+      console.log('Error fetching user data:', error);
+    }
+
+  };
+
+  async findById(id: number): Promise<any> {
+    try {
+      const post = await Post.findByPk(id);
+
+      return post;
+    } catch (error) {
+      console.log('Error fetching user data:', error);
+    }
+  };
+
+  async findByIdUser(id_user: number): Promise<Object> {
+    const post: Object = await Post.findAll({
+      where: { id_user: `${id_user}` },
+    });
+    return post;
+  };
+
+
+  async findAll(): Promise<Object> {
+    const post = await Post.findAll(
+      {
+        attributes: ['id', 'image_post', 'description', 'createdAt'],
+        include: [{
+          model: User, as: "users",
+          attributes: ['id', 'name', 'image_user']
+        }],
+        order: [
+          ['id', 'DESC'],
+        ]
+      });
+
+    return post;
+
   }
-};
+
+}
