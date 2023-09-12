@@ -1,6 +1,6 @@
 import Dao from './../../classes/Dao';
 import { User } from '../../db/models/user';
-import { loginDto, userDto } from './userDto';
+import { userDto } from './userDto';
 
 export default class UserDao extends Dao {
 
@@ -97,8 +97,10 @@ export default class UserDao extends Dao {
       return response;
     }
 
-    const userDto: loginDto = {
+    const userDto: userDto = {
       id: response[0].dataValues.id,
+      name: response[0].dataValues.name,
+      image_user: response[0].dataValues.image_user,
       email: response[0].dataValues.email,
       password: response[0].dataValues.password
     }

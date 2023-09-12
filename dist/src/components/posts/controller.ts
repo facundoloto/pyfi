@@ -4,22 +4,24 @@ import { PostInterfaces } from '../../interfaces/interfaces';
 import PostDao from './services';
 
 const postDao = new PostDao();
+async function setPost(req: Request, _res: Response) {
+
+  const fileImage: any = req.file;
+  const post: PostInterfaces = {
+    id_user: parseInt(req.body.user),
+    image_post: fileImage.location,
+    description: req.body.description,
+  };
+
+  return post;
+}
 
 export class Post {
 
-  public setPost(req: Request, _res: Response) {
-    const fileImage: any = req.file;
-    const post: PostInterfaces = {
-      id_user: parseInt(req.body.user),
-      image_post: fileImage.location,
-      description: req.body.description,
-    };
-
-    return post;
-  }
-
   public async Save(req: Request, res: Response) {
-    const post = this.setPost(req, res);
+    console.log(req.body.user)
+    const post = await setPost(req, res);
+
     const response = await postDao.save(post);
     const isEmpty = Object.keys(response);
 
@@ -53,7 +55,7 @@ export class Post {
   };
 
   public async Update(req: Request, _res: Response) {
-    const post = this.setPost(req, _res);
+    const post = await setPost(req, _res);
     const result = await postDao.update(post);
     const responseOk: responseHttp = { status: true, result: result };
     return responseOk;

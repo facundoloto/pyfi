@@ -1,5 +1,6 @@
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { HttpStatusCode, responseHttp } from './../../constant/httpCodes';
+import { HttpStatusCode } from './../../constant/httpCodes';
 import { JWTData } from './../../interfaces/interfaces';
 require('dotenv').config();
 
@@ -21,20 +22,21 @@ export default class Auth {
         }
     }
 
-    decodedToken = (token: string) => {
-
-        let responseBad: responseHttp = { status: false, code: HttpStatusCode.NotImplemented, message: 'Unauthorized' }
+    decodedToken = (req: Request, res: Response, next: NextFunction) => {
+        const token = req.headers.authorization as string;
         /*this verify if there is a token in a request */
         if (!token) {
-            return responseBad
+            console.log('token not avilable')
+            res.status(HttpStatusCode.NotImplemented).json({ message: 'token not provided' });
         }
         /*when it found token we verify if it's the right token or not*/
         const decoded = this.verifyToken(token);
         if (!decoded) {
-            return responseBad = { status: false, code: HttpStatusCode.NotImplemented, message: 'Invalid token' };
+            console.log('decode fail')
+            res.status(HttpStatusCode.NotImplemented).json({ message: 'Invalid token' });
         }
-        /*if token It's right we send the response of controller*/
-        return decoded;
+        console.log('token successful')
+        next();
     }
 
 }

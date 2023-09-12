@@ -59,8 +59,9 @@ export default class PostDao extends Dao {
 
   async findById(id: number): Promise<any> {
     try {
+      console.log('bug here')
       const post = await Post.findByPk(id);
-
+      console.log(post)
       return post;
     } catch (error) {
       console.log('Error fetching user data:', error);
@@ -68,8 +69,9 @@ export default class PostDao extends Dao {
   };
 
   async findByIdUser(id_user: number): Promise<Object> {
+    const id = String(id_user)
     const post: Object = await Post.findAll({
-      where: { id_user: `${id_user}` },
+      where: { id_user: `${id}` },
     });
     return post;
   };

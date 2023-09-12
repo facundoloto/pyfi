@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { HttpStatusCode, HttpMessageCode, responseHttp } from './../../constant/httpCodes';
-import { encryptPassword } from '../../utils/verify';
-import { userDto } from './userDto';
+import setUserDto from './setUserDto';
 import UserDao from './services';
 // import Auth from '../auth/auth';
+
 
 const userDao = new UserDao();
 // const auth = new Auth();
@@ -11,22 +11,6 @@ const userDao = new UserDao();
 export class UserController {
 
   /*this funcion just works to set a new user and send a db */
-  public async setUserDto(req: Request, _res: Response) {
-    const fileImage: any = req.file;
-    const location: string = fileImage ? fileImage : "https://visualpharm.com/assets/336/User-595b40b65ba036ed117d26d4.svg";
-    const hashPassword: string = await encryptPassword(req.body.password);
-
-    const user: userDto = {
-      name: req.body.name,
-      email: req.body.email,
-      password: hashPassword,
-      image_user: location
-    };
-
-    return user;
-  }
-
-
   public async getById(req: Request, _res: Response) {
     // const token = req.cookies.token;
     const idUser = Number(req.params.id);
@@ -60,7 +44,7 @@ export class UserController {
   }
 
   public async update(req: Request, _res: Response) {
-    const user = await this.setUserDto(req, _res);
+    const user = await setUserDto(req, _res);
     const result = await userDao.update(user);
     let responseOk: responseHttp = { status: true, result: result }
 

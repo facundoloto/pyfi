@@ -7,6 +7,7 @@ const tryCatchResponse = require('./../../utils/tryCatchResponse');
 const router = express.Router();
 
 router.post('/signup/', uploadImage, tryCatchResponse(register.signUp))
-router.post('/login/', tryCatchResponse(register.Login));
-router.post('/signup/google/', tryCatchResponse(register.signUpGoogle));
+router.post('/login/', register.Login);
+router.post('/signup/google/', register.signUpGoogle);
+router.post('/login/google/', register.LoginByGoogle);
 module.exports = router;
