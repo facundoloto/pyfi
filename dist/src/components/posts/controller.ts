@@ -19,7 +19,6 @@ async function setPost(req: Request, _res: Response) {
 export class Post {
 
   public async Save(req: Request, res: Response) {
-    console.log(req.body.user)
     const post = await setPost(req, res);
 
     const response = await postDao.save(post);
@@ -51,7 +50,8 @@ export class Post {
   public async Delete(req: Request, _res: Response) {
     const id: string = req.params.id;
     const postDelete = await postDao.delete(id);
-    return postDelete;
+    const responseOk: responseHttp = { status: true, result: postDelete };
+    return responseOk;
   };
 
   public async Update(req: Request, _res: Response) {

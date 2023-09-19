@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { HttpStatusCode, HttpMessageCode, responseHttp } from './../../constant/httpCodes';
-import setUserDto from './setUserDto';
+// import setUserDto from './setUserDto';
 import UserDao from './services';
 // import Auth from '../auth/auth';
 
@@ -44,9 +44,15 @@ export class UserController {
   }
 
   public async update(req: Request, _res: Response) {
-    const user = await setUserDto(req, _res);
+    const fileImage: any = req.file;
+    const user = {
+      id: Number(req.params.id),
+      name: req.body.name,
+      image_user: fileImage.location
+    };
     const result = await userDao.update(user);
     let responseOk: responseHttp = { status: true, result: result }
+    console.log("bug 54 result")
 
     return responseOk;
   }

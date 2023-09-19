@@ -42,7 +42,7 @@ export default class UserDao extends Dao {
 
   async update(userDto: userDto): Promise<any> {
     try {
-
+      console.log(userDto)
       const userUpdated = await User.update(
         {
           name: userDto.name,
