@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev dist/index.ts",
-    "start": "nodemon",
+    "start": "node dist/index.ts",
+    "build": "tsc",
     "tsc": "tsc",
     "test": "mocha",
     "test:watch": "npm test"
