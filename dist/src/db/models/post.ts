@@ -26,17 +26,9 @@ export class Post extends Model {
   public createdAt!: Date;
   public updatedAt!: Date;
 
-  // public static associate(models: any) {
-  //   Post.belongsTo(models.User,{
-  //     as:"users",
-  //     foreignKey:'id_user',
-  //     targetKey:'id_user'
-  //   });
-  // }
-
 }
 
-// Configuramos el esquema de nuestro modelo User
+
 Post.init(
   {
     id: {
@@ -60,7 +52,6 @@ Post.init(
   {
     sequelize,
     modelName: "Posts",
-    // pasamos la instancia de la conexión de sequelize configurada arriba
   }
 );
 
