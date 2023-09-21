@@ -38,7 +38,7 @@ User.init({
 }, {
     sequelize,
     //modelName: "Users",
-    tableName: "users",
+    tableName: "Users",
     freezeTableName: true,
 });
 exports.default = User;
