@@ -69,8 +69,8 @@ export class LoginController {
                 const token = auth.generateToken(userDto.id);
                 /*I do this destructuring and spread because the Id is being sent by cookie*/
                 const data = userDto;
-
-                _res.cookie('token', token).json({ data: data, result: "access succeful" });
+                console.log(token);
+                _res.cookie('token', token).status(HttpStatusCode.Ok).json({ data: data, result: "access succeful" });
             }
             else {
                 _res.status(HttpStatusCode.Unauthorized).json({ result: "password wrong" });
