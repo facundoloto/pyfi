@@ -11,7 +11,8 @@ const sequelize = configModel_1.default;
 class UserPost extends sequelize_1.Model {
 }
 exports.UserPost = UserPost;
-UserPost.init({ id: {
+UserPost.init({
+    id: {
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
