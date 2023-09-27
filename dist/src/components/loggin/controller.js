@@ -48,6 +48,7 @@ class LoginController {
     async Login(req, _res) {
         const login = { email: req.body.email, password: req.body.password };
         const findEmail = await (0, verify_1.checkEmail)(login.email);
+        console.log(findEmail);
         const user = await userDao.findByEmail(login.email);
         if (findEmail) {
             const findPassword = await (0, verify_1.comparePassword)(login.password, user.password);
@@ -57,15 +58,20 @@ class LoginController {
                 const token = auth.generateToken(userDto.id);
                 /*I do this destructuring and spread because the Id is being sent by cookie*/
                 const data = userDto;
-                _res.cookie('token', token);
-                _res.status(httpCodes_1.HttpStatusCode.Ok).json({ data: data, result: "access succeful" });
+                console.log(token);
+                _res.cookie('token', token, {
+                    maxAge: oneMonth,
+                    httpOnly: false,
+                    secure: false,
+                    sameSite: "lax",
+                }).status(httpCodes_1.HttpStatusCode.Ok).json({ data: data, result: "access succeful" });
             }
             else {
-                _res.status(httpCodes_1.HttpStatusCode.Unauthorized).json({ result: "password wrong" });
+                _res.json({ result: "password wrong" }).status(httpCodes_1.HttpStatusCode.BadRequest);
             }
         }
         else {
-            _res.status(httpCodes_1.HttpStatusCode.Unauthorized).json({ result: "email not found" });
+            _res.json({ result: "email not found" }).status(httpCodes_1.HttpStatusCode.BadRequest);
         }
     }
     ;
@@ -84,7 +90,7 @@ class LoginController {
             _res.status(httpCodes_1.HttpStatusCode.Ok).json({ data: user, result: "access succeful" });
         }
         else {
-            _res.status(httpCodes_1.HttpStatusCode.Unauthorized).json({ result: "email not found" });
+            _res.json({ result: "email not found" }).status(httpCodes_1.HttpStatusCode.Unauthorized);
         }
     }
     ;

@@ -58,6 +58,7 @@ export class LoginController {
         const login: LoginInterfaces = { email: req.body.email, password: req.body.password };
 
         const findEmail: boolean = await checkEmail(login.email);
+        console.log(findEmail)
         const user: loginDto | any = await userDao.findByEmail(login.email);
 
         if (findEmail) {
@@ -78,10 +79,11 @@ export class LoginController {
                 }).status(HttpStatusCode.Ok).json({ data: data, result: "access succeful" });
             }
             else {
-                _res.status(HttpStatusCode.Unauthorized).json({ result: "password wrong" });
+                _res.json({ result: "password wrong" }).status(HttpStatusCode.BadRequest);
             }
         } else {
-            _res.status(HttpStatusCode.Unauthorized).json({ result: "email not found" });
+            console.log("this should send it")
+            _res.status(HttpStatusCode.BadRequest).json({ result: "email not found" });
 
         }
 
@@ -106,7 +108,7 @@ export class LoginController {
             _res.status(HttpStatusCode.Ok).json({ data: user, result: "access succeful" });
         }
         else {
-            _res.status(HttpStatusCode.Unauthorized).json({ result: "email not found" });
+            _res.json({ result: "email not found" }).status(HttpStatusCode.Unauthorized);
 
         }
     };
