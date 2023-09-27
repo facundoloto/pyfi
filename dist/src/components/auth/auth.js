@@ -29,14 +29,19 @@ class Auth {
                 console.log('token not avilable');
                 res.status(httpCodes_1.HttpStatusCode.NotImplemented).json({ message: 'token not provided' });
             }
-            /*when it found token we verify if it's the right token or not*/
-            const decoded = this.verifyToken(token);
-            if (!decoded) {
-                console.log('decode fail');
-                res.status(httpCodes_1.HttpStatusCode.NotImplemented).json({ message: 'Invalid token' });
+            else {
+                const decoded = this.verifyToken(token);
+
+                if (!decoded) {
+                    console.log('decode fail');
+                    res.status(httpCodes_1.HttpStatusCode.NotImplemented).json({ message: 'Invalid token' });
+                }
+                else {
+                    console.log('token successful');
+                    next();
+                }
             }
-            console.log('token successful');
-            next();
+            /*when it found token we verify if it's the right token or not*/
         };
     }
 }
