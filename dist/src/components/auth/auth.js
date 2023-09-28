@@ -31,7 +31,6 @@ class Auth {
             }
             else {
                 const decoded = this.verifyToken(token);
-
                 if (!decoded) {
                     console.log('decode fail');
                     res.status(httpCodes_1.HttpStatusCode.NotImplemented).json({ message: 'Invalid token' });
