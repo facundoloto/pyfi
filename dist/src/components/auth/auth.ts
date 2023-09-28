@@ -28,15 +28,18 @@ export default class Auth {
         if (!token) {
             console.log('token not avilable')
             res.status(HttpStatusCode.NotImplemented).json({ message: 'token not provided' });
+        } else {
+            const decoded = this.verifyToken(token);
+            if (!decoded) {
+                console.log('decode fail')
+                res.status(HttpStatusCode.NotImplemented).json({ message: 'Invalid token' });
+            } else {
+                console.log('token successful')
+                next();
+            }
         }
         /*when it found token we verify if it's the right token or not*/
-        const decoded = this.verifyToken(token);
-        if (!decoded) {
-            console.log('decode fail')
-            res.status(HttpStatusCode.NotImplemented).json({ message: 'Invalid token' });
-        }
-        console.log('token successful')
-        next();
+
     }
 
 }

@@ -12,7 +12,6 @@ import Auth from '../auth/auth';
 
 const userDao = new UserDao();
 const auth = new Auth();
-const oneMonth = 30 * 24 * 60 * 60 * 1000; // One month in milliseconds
 
 export class LoginController {
 
@@ -58,7 +57,6 @@ export class LoginController {
         const login: LoginInterfaces = { email: req.body.email, password: req.body.password };
 
         const findEmail: boolean = await checkEmail(login.email);
-        console.log(findEmail)
         const user: loginDto | any = await userDao.findByEmail(login.email);
 
         if (findEmail) {
@@ -70,21 +68,14 @@ export class LoginController {
                 const token = auth.generateToken(userDto.id);
                 /*I do this destructuring and spread because the Id is being sent by cookie*/
                 const data = userDto;
-                console.log(token);
-                _res.cookie('token', token, {
-                    maxAge: oneMonth,
-                    httpOnly: false,
-                    secure: false,
-                    sameSite: "lax",
-                }).status(HttpStatusCode.Ok).json({ data: data, result: "access succeful" });
+
+                _res.json({ data: data, result: "access succeful", token: token }).status(HttpStatusCode.Ok);
             }
             else {
                 _res.json({ result: "password wrong" }).status(HttpStatusCode.BadRequest);
             }
         } else {
-            console.log("this should send it")
-            _res.status(HttpStatusCode.BadRequest).json({ result: "email not found" });
-
+            _res.json({ result: "email not found" }).status(HttpStatusCode.BadRequest);
         }
 
     };
@@ -98,14 +89,7 @@ export class LoginController {
             const token = auth.generateToken(user.id);
             /*I do this destructuring and spread because the Id is being sent by cookie*/
 
-            _res.cookie('token', token, {
-                maxAge: oneMonth,
-                httpOnly: false,
-                secure: false,
-                sameSite: "lax",
-            });
-
-            _res.status(HttpStatusCode.Ok).json({ data: user, result: "access succeful" });
+            _res.json({ data: user, result: "access succeful", token: token }).status(HttpStatusCode.Ok);
         }
         else {
             _res.json({ result: "email not found" }).status(HttpStatusCode.Unauthorized);

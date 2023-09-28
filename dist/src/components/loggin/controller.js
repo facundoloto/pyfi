@@ -11,7 +11,6 @@ const services_1 = __importDefault(require("../users/services"));
 const auth_1 = __importDefault(require("../auth/auth"));
 const userDao = new services_1.default();
 const auth = new auth_1.default();
-const oneMonth = 30 * 24 * 60 * 60 * 1000; // One month in milliseconds
 class LoginController {
     async signUp(req, res) {
         const user = await (0, setUserDto_1.default)(req, res);
@@ -48,7 +47,6 @@ class LoginController {
     async Login(req, _res) {
         const login = { email: req.body.email, password: req.body.password };
         const findEmail = await (0, verify_1.checkEmail)(login.email);
-        console.log(findEmail);
         const user = await userDao.findByEmail(login.email);
         if (findEmail) {
             const findPassword = await (0, verify_1.comparePassword)(login.password, user.password);
@@ -58,13 +56,7 @@ class LoginController {
                 const token = auth.generateToken(userDto.id);
                 /*I do this destructuring and spread because the Id is being sent by cookie*/
                 const data = userDto;
-                console.log(token);
-                _res.cookie('token', token, {
-                    maxAge: oneMonth,
-                    httpOnly: false,
-                    secure: false,
-                    sameSite: "lax",
-                }).status(httpCodes_1.HttpStatusCode.Ok).json({ data: data, result: "access succeful" });
+                _res.json({ data: data, result: "access succeful", token: token }).status(httpCodes_1.HttpStatusCode.Ok);
             }
             else {
                 _res.json({ result: "password wrong" }).status(httpCodes_1.HttpStatusCode.BadRequest);
@@ -81,13 +73,7 @@ class LoginController {
             /*id only is the sign in the token*/
             const token = auth.generateToken(user.id);
             /*I do this destructuring and spread because the Id is being sent by cookie*/
-            _res.cookie('token', token, {
-                maxAge: oneMonth,
-                httpOnly: false,
-                secure: false,
-                sameSite: "lax",
-            });
-            _res.status(httpCodes_1.HttpStatusCode.Ok).json({ data: user, result: "access succeful" });
+            _res.json({ data: user, result: "access succeful", token: token }).status(httpCodes_1.HttpStatusCode.Ok);
         }
         else {
             _res.json({ result: "email not found" }).status(httpCodes_1.HttpStatusCode.Unauthorized);
