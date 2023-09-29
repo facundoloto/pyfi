@@ -3,7 +3,6 @@ import multerS3 = require('multer-s3');
 import { S3Client } from '@aws-sdk/client-s3';
 require('dotenv').config();
 
-const bucketName: string = process.env.AWS_BUCKET as string;
 const accessKeyId: string = process.env.AWS_ACCESS_KEY_ID as string;
 const secretAccesKey: string = process.env.AWS_SECRET_ACCESS_KEY as string;
 
@@ -36,7 +35,7 @@ export const uploadImage = multer({
   storage: multerS3({
 
     s3: s3Config,
-    bucket: `${bucketName}`,
+    bucket: 'pyfi',
 
     metadata: (_req: any, file: any, cb: any) => {
       cb(null, { fieldName: file.fieldname });
