@@ -6,10 +6,9 @@ require('dotenv').config();
 const bucketName: string = process.env.AWS_BUCKET as string;
 const accessKeyId: string = process.env.AWS_ACCESS_KEY_ID as string;
 const secretAccesKey: string = process.env.AWS_SECRET_ACCESS_KEY as string;
-// const regionAws: string = process.env.AWS_REGION as string;
 
 const s3Config = new S3Client({
-  // region: regionAws,
+  region: "sa-east-1",
   credentials: {
     accessKeyId: accessKeyId,
     secretAccessKey: secretAccesKey
