@@ -5,15 +5,13 @@ const multer = require("multer");
 const multerS3 = require("multer-s3");
 const client_s3_1 = require("@aws-sdk/client-s3");
 require('dotenv').config();
-const bucketName = process.env.AWS_BUCKET;
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-const secretAccesKey = process.env.AWS_SECRET_ACCESS_KEY;
-const regionAws = process.env.AWS_REGION;
+// const accessKeyId: string = process.env.AWS_ACCESS_KEY_ID as string;
+// const secretAccesKey: string = process.env.AWS_SECRET_ACCESS_KEY as string;
 const s3Config = new client_s3_1.S3Client({
-    region: regionAws,
+    region: 'sa-east-1',
     credentials: {
-        accessKeyId: accessKeyId,
-        secretAccessKey: secretAccesKey
+        accessKeyId: 'AKIAV7B5KGNSQACLDL3N',
+        secretAccessKey: '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'
     }
 });
 /**
@@ -33,7 +31,7 @@ exports.uploadImage = multer({
     fileFilter: imageFilter,
     storage: multerS3({
         s3: s3Config,
-        bucket: `${bucketName}`,
+        bucket: 'pyfi',
         metadata: (_req, file, cb) => {
             cb(null, { fieldName: file.fieldname });
         },

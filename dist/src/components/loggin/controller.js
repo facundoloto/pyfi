@@ -36,11 +36,7 @@ class LoginController {
         };
         const result = await userDao.save(user);
         const token = auth.generateToken(result.id);
-        const responseOk = { status: true, result: result };
-        _res.cookie('token', token).
-            cookie('id_user', result.id).
-            status(httpCodes_1.HttpStatusCode.Ok).
-            json(responseOk);
+        _res.json({ data: result, result: "access succeful", token: token }).status(httpCodes_1.HttpStatusCode.Ok);
     }
     ;
     /*only in this controller we won't use the utils try y catch 'cause we're going to give a cookie to client*/
