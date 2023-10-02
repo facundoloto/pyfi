@@ -11,6 +11,9 @@ import { HttpStatusCode } from "../constant/httpCodes";
 const tryCatchResponse = (controller: any) => async (_req: Request, res: Response, _next: NextFunction) => {
   try {
     const response = await controller(_req, res);
+    if (!_req.file) {
+      res.json({ error: 'format image wrong!' }).status(400);
+    }
 
     if (response.status) {
       res.json(response).status(HttpStatusCode.Ok);
@@ -19,6 +22,8 @@ const tryCatchResponse = (controller: any) => async (_req: Request, res: Respons
       //you can set this when response is error 'cause each error status it's different in each controller
       res.status(response.code).json(response);
     }
+
+
 
   } catch (error) {
     console.log(error)

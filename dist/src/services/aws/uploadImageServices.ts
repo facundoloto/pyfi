@@ -1,6 +1,7 @@
+// import { HttpStatusCode } from '../../constant/httpCodes';
+import { S3Client } from '@aws-sdk/client-s3';
 import multer = require("multer");
 import multerS3 = require('multer-s3');
-import { S3Client } from '@aws-sdk/client-s3';
 require('dotenv').config();
 
 // const accessKeyId: string = process.env.AWS_ACCESS_KEY_ID as string;
@@ -21,11 +22,13 @@ const s3Config = new S3Client({
 const imageFilter = (_req: any, file: any, cb: any) => {
 
   if (!file.originalname.match(/\.(JPG|jpg|jpeg|png|gif)$/)) {
+    // res.status("500").json('Only image files are allowed!');
     return cb(new Error('Only image files are allowed!'), false);
   }
 
   cb(null, true);
 };
+
 
 /**
  * function to upload your image in aws.
