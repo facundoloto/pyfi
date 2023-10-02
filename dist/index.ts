@@ -7,9 +7,9 @@ const indexRouter = require('./src/routes/index');
 const PORT = process.env.PORT || 8000;
 const app = express();
 const server = http.createServer(app);
-
 const corsOptions = {
-  origin: "https://instagrampyfi.netlify.app",
+  // origin: "https://instagrampyfi.netlify.app",
+  origin: "http://localhost:5173",
   credentials: true,
 }
 
