@@ -10,7 +10,8 @@ const app = express();
 const server = http.createServer(app);
 //const io = new Server(server, { cors: {origin: "*"},});
 const corsOptions = {
-  origin: "https://instagrampyfi.netlify.app",
+  // origin: "https://instagrampyfi.netlify.app",
+  origin: "http://localhost:5173",
   credentials: true,
 }
 
