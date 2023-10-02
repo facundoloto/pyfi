@@ -1,18 +1,14 @@
 import { Request, Response } from 'express';
 import { HttpStatusCode, HttpMessageCode, responseHttp } from './../../constant/httpCodes';
-// import setUserDto from './setUserDto';
 import UserDao from './services';
-// import Auth from '../auth/auth';
 
 
 const userDao = new UserDao();
-// const auth = new Auth();
 
 export class UserController {
 
   /*this funcion just works to set a new user and send a db */
   public async getById(req: Request, _res: Response) {
-    // const token = req.cookies.token;
     const idUser = Number(req.params.id);
     const user = await userDao.findById(idUser);
     let response: responseHttp;
@@ -24,7 +20,6 @@ export class UserController {
     }
 
     /*this should return the response with user or not, decoded just works for check if the token It's right or not*/
-    // const responseToken: responseHttp = auth.decodedToken(response, token);
     return response;
   }
 
@@ -52,8 +47,6 @@ export class UserController {
     };
     const result = await userDao.update(user);
     let responseOk: responseHttp = { status: true, result: result }
-    console.log("bug 54 result")
-
     return responseOk;
   }
 
