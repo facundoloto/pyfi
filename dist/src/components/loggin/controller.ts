@@ -26,6 +26,7 @@ export class LoginController {
         }
         else {
             const result = await userDao.save(user);
+            console.log('register by system', result);
             let responseOk: responseHttp = { status: true, result: result };
             return responseOk;
         }
@@ -42,6 +43,8 @@ export class LoginController {
         };
 
         const result = await userDao.save(user);
+        console.log('login by google', result);
+
         const token = auth.generateToken(result.id);
 
         _res.json({ data: result, result: "access succeful", token: token }).status(HttpStatusCode.Ok);

@@ -2,16 +2,14 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import http from "http";
-//import { Server } from "socket.io";
 
 const indexRouter = require('./src/routes/index');
 const PORT = process.env.PORT || 8000;
 const app = express();
 const server = http.createServer(app);
-//const io = new Server(server, { cors: {origin: "*"},});
+
 const corsOptions = {
-  // origin: "https://instagrampyfi.netlify.app",
-  origin: "http://localhost:5173",
+  origin: "https://instagrampyfi.netlify.app",
   credentials: true,
 }
 
