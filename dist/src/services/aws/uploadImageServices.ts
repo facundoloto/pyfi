@@ -22,7 +22,6 @@ const s3Config = new S3Client({
 const imageFilter = (_req: any, file: any, cb: any) => {
 
   if (!file.originalname.match(/\.(JPG|jpg|jpeg|png|gif)$/)) {
-    // res.status("500").json('Only image files are allowed!');
     return cb(new Error('Only image files are allowed!'), false);
   }
 

@@ -26,7 +26,6 @@ export class LoginController {
         }
         else {
             const result = await userDao.save(user);
-            console.log('register by system', result);
             let responseOk: responseHttp = { status: true, result: result };
             return responseOk;
         }
@@ -43,7 +42,6 @@ export class LoginController {
         };
 
         const result = await userDao.save(user);
-        console.log('login by google', result);
 
         const token = auth.generateToken(result.id);
 
@@ -82,7 +80,6 @@ export class LoginController {
 
     async LoginByGoogle(req: Request, _res: Response) {
         const user: userDto | any = await userDao.findByEmail(req.body.email);
-
         if (user) {
             /*id only is the sign in the token*/
             const token = auth.generateToken(user.id);
