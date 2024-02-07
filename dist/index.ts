@@ -8,14 +8,14 @@ const PORT = process.env.PORT || 8000;
 const app = express();
 const server = http.createServer(app);
 const corsOptions = {
-  origin: "https://instagrampyfi.netlify.app",
+  origin: "*",
   credentials: true,
 }
 
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.set('view engine', '.hbs');
 
 app.use('/v1/', indexRouter);
