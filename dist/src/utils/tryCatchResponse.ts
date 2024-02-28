@@ -13,7 +13,7 @@ const tryCatchResponse = (controller: any) => async (_req: Request, res: Respons
     const response = await controller(_req, res);
 
     if (response.status) {
-      res.json(response).status(HttpStatusCode.Ok);
+      res.status(HttpStatusCode.Ok).json(response);
     }
     else {
       //you can set this when response is error 'cause each error status it's different in each controller

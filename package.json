@@ -2,10 +2,10 @@
   "name": "pyfi",
   "version": "1.0.0",
   "description": "pyfi(post your favorite image files)",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "dev": "ts-node-dev dist/index.ts",
-    "start": "node dist/index.js",
+    "start": "node dist/build index.js",
     "build": "tsc",
     "tsc": "tsc",
     "test": "mocha",

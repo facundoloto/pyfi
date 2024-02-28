@@ -25,10 +25,12 @@ export class LoginController {
             let responseOk: responseHttp = { status: true, result: result };
             return responseOk;
         }
-        
+
     };
 
     async signUpGoogle(req: Request, _res: Response) {
+        console.log("success")
+
         const user: UserInterfaces = {
             name: req.body.name,
             email: req.body.email,
@@ -57,10 +59,10 @@ export class LoginController {
                 _res.json({ data: data, result: "access succeful", token: token }).status(HttpStatusCode.Ok);
             }
             else {
-                _res.json({ result: "password wrong" }).status(HttpStatusCode.BadRequest);
+                _res.status(201).json({ error: 'Unauthorized', message: 'Incorrect password' });
             }
         } else {
-            _res.json({ result: "email not found" }).status(HttpStatusCode.BadRequest);
+            _res.status(201).json({ error: 'Unauthorized', message: 'Incorrect email' });
         }
 
     };
@@ -72,13 +74,14 @@ export class LoginController {
             /*id only is the sign in the token*/
             const token = auth.generateToken(user.id);
             /*I do this destructuring and spread because the Id is being sent by cookie*/
+            console.log("success")
             _res.json({ data: user, result: "access succeful", token: token }).status(HttpStatusCode.Ok);
         }
         else {
             _res.json({ result: "email not found" }).status(HttpStatusCode.Unauthorized);
 
         }
-        
+
     };
-    
+
 }
