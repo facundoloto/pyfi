@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { HttpStatusCode, responseHttp } from './../../constant/httpCodes';
+import { HttpStatusCode } from './../../constant/httpCodes';
 import { PostInterfaces } from '../../interfaces/interfaces';
 import PostDao from './services';
 
@@ -19,45 +19,86 @@ async function setPost(req: Request, _res: Response) {
 export class Post {
 
   public async Save(req: Request, res: Response) {
-    const post = await setPost(req, res);
+    try {
+      const post = await setPost(req, res);
+      const responseServices = await postDao.save(post);
 
-    const response = await postDao.save(post);
-    const isEmpty = Object.keys(response);
+      if (responseServices.status) {
+        res.status(HttpStatusCode.Ok).json(responseServices.result);
+      }
+      else {
+        res.status(HttpStatusCode.NotImplemented).json(responseServices.result);
+      }
 
-    if (!isEmpty.length) {
-      let responseBad: responseHttp = { status: false, code: HttpStatusCode.NotImplemented, message: 'it is not save post' }
-      return responseBad;
-    }
-    else {
-      let responseOk: responseHttp = { status: true, result: response };
-      return responseOk;
-    }
+    } catch (error) {
+      res.status(HttpStatusCode.InternalServerError).json(error);
+    };
   };
 
-  public async getById(req: Request, _res: Response) {
-    const idUser = Number(req.params.id);
-    const post = await postDao.findByIdUser(idUser);
-    const responseOk: responseHttp = { status: true, result: post };
-    return responseOk;
+  public async getById(req: Request, res: Response) {
+    try {
+      const idUser = Number(req.params.id);
+      const responseServices: any | null = await postDao.findByIdUser(idUser);
+
+      if (responseServices.status) {
+        res.json(responseServices).status(HttpStatusCode.Ok);
+      }
+      else {
+        res.status(HttpStatusCode.NotFound).json(responseServices.result);
+      }
+
+    } catch (error) {
+      res.status(HttpStatusCode.InternalServerError).json(error);
+    };
   };
 
-  public async getAll(_req: Request, _res: Response) {
-    const post = await postDao.findAll();
-    const responseOk: responseHttp = { status: true, result: post };
-    return responseOk;
+  public async getAll(_req: Request, res: Response) {
+    try {
+      const responseServices: any | null = await postDao.findAll();
+
+      if (responseServices.status) {
+        res.json(responseServices).status(HttpStatusCode.Ok);
+      }
+      else {
+        res.status(HttpStatusCode.NotFound).json(responseServices.result);
+      }
+
+    } catch (error) {
+      res.status(HttpStatusCode.InternalServerError).json(error);
+    };
   };
 
-  public async Delete(req: Request, _res: Response) {
-    const id: string = req.params.id;
-    const postDelete = await postDao.delete(id);
-    const responseOk: responseHttp = { status: true, result: postDelete };
-    return responseOk;
+  public async Delete(req: Request, res: Response) {
+
+    try {
+      const id: string = req.params.id;
+      const responseServices: any | null = await postDao.delete(id);
+      if (responseServices.status) {
+        res.json(responseServices).status(HttpStatusCode.Ok);
+      }
+      else {
+        res.status(HttpStatusCode.NotFound).json(responseServices.result);
+      }
+
+    } catch (error) {
+      res.status(HttpStatusCode.InternalServerError).json(error);
+    };
   };
 
-  public async Update(req: Request, _res: Response) {
-    const post = await setPost(req, _res);
-    const result = await postDao.update(post);
-    const responseOk: responseHttp = { status: true, result: result };
-    return responseOk;
+  public async Update(req: Request, res: Response) {
+    try {
+      const post = await setPost(req, res);
+      const responseServices: any | null = await postDao.update(post);
+
+      if (responseServices.status) {
+        res.status(HttpStatusCode.Ok).json(responseServices.result);
+      }
+      else {
+        res.status(HttpStatusCode.NotImplemented).json(responseServices.result);
+      }
+
+    } catch (error) {
+      res.status(HttpStatusCode.InternalServerError).json(error);
+    };
   }
 }

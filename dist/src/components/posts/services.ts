@@ -6,9 +6,7 @@ import { PostDto } from './postDto';
 
 export default class PostDao extends Dao {
 
-
   async save(PostDto: PostDto): Promise<any> {
-
     try {
       const savePost = Post.create(
         {
@@ -17,23 +15,19 @@ export default class PostDao extends Dao {
           description: PostDto.description
         }
       );
-
-      return savePost;
+      return { status: true, result: savePost };
     } catch (error) {
-      console.log('Error fetching user data:', error);
+      return { status: false, result: error };
     }
-
   }
 
   async delete(idPost: string): Promise<any> {
-
     try {
       const deletePost = Post.destroy({ where: { id: `${idPost}` } });
-      return deletePost;
+      return { status: true, result: deletePost };
     } catch (error) {
-      console.log('Error fetching user data:', error);
+      return { status: false, result: error };
     }
-
   }
 
   async update(PostDto: PostDto): Promise<any> {
@@ -49,22 +43,19 @@ export default class PostDao extends Dao {
           },
         }
       );
-
-      return postUpdated;
+      return { status: true, result: postUpdated };
     } catch (error) {
-      console.log('Error fetching user data:', error);
+      return { status: false, result: error };
     }
 
   };
 
   async findById(id: number): Promise<any> {
     try {
-      console.log('bug here')
       const post = await Post.findByPk(id);
-      console.log(post)
-      return post;
+      return { status: true, result: post };
     } catch (error) {
-      console.log('Error fetching user data:', error);
+      return { status: false, result: error };
     }
   };
 
@@ -73,9 +64,8 @@ export default class PostDao extends Dao {
     const post: Object = await Post.findAll({
       where: { id_user: `${id}` },
     });
-    return post;
+    return { status: true, result: post };
   };
-
 
   async findAll(): Promise<Object> {
     const post = await Post.findAll(
@@ -89,9 +79,7 @@ export default class PostDao extends Dao {
           ['id', 'DESC'],
         ]
       });
-
-    return post;
-
+    const response = { status: true, result: post };
+    return response;
   }
-
 }
