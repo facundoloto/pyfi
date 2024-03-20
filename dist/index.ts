@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 8000;
 const app = express();
 const server = http.createServer(app);
 const corsOptions = {
-  origin: "https://instagrampyfi.netlify.app",
+  origin: "https://pifyfrontend.netlify.app/login",
   // origin: "http://localhost:5173",
   credentials: true,
 }
